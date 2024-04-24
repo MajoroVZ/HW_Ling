@@ -10,6 +10,7 @@ from aiogram.types import Message
 from aiogram.filters import Filter
 
 import pyowm
+from pyowm import OWM
 from pyowm.utils.config import get_default_config
 import re
 
@@ -45,7 +46,7 @@ class CalculateFilter(RegexFilter):
 
 class RemindFilter(RegexFilter):
     def __init__(self):
-        super().__init__(r'Напомни мне о (.*?) через (.+) часов?')
+        super().__init__(r'Напомни мне о (.+) через (.+) минут?')
 
     def __call__(self, message: Message):
         return self.check(message)
@@ -78,17 +79,17 @@ async def what_can_i_do(message: Message):
 async def weather(message: Message):
     match = re.search(WeatherFilter().pattern, message.text)
     city = match.group(1)
-    owm = pyowm.OWM('43638e8776717e204e2f47361e217e0b')
+    owm = OWM('7c1f7b5fc6232356b89797f0cd53af19')
 
     try:
         config_dict = get_default_config()
         config_dict['language'] = 'ru'
-
         mgr = owm.weather_manager()
         observation = mgr.weather_at_place(city)
         w = observation.weather
-        await message.answer(f"В городе {city} сейчас {w.get_detailed_status()}. "
-                             f"Температура воздуха: {w.get_temperature('celsius')['temp']}°C")
+        await message.answer(f"В городе {city} сейчас {w.detailed_status}. "
+                             f"Температура воздуха: {w.temperature('celsius')['temp']}°C")
+
     except Exception as e:
         await message.answer(f"Не удалось получить погоду в городе {city}. "
                              f"Попробуйте указать другой город или проверьте правильность написания.")
@@ -105,10 +106,13 @@ async def calculate(message: Message):
 
 
 @dp.message(RemindFilter())
-async def remind(message: Message, subject: str, hours: str):
+async def remind(message: Message):
     try:
-        hours = int(hours)
-        await asyncio.sleep(hours * 3600)  # ожидание указанного количества часов
+        match = re.search(RemindFilter().pattern, message.text)
+        subject = match.group(1)
+        minutes = match.group(2)
+        minutes = int(minutes)
+        await asyncio.sleep(minutes * 60)  # ожидание указанного количества часов
         await message.answer(f"Время {subject}!")
     except Exception as e:
         await message.answer(f"Не удалось создать напоминание. Проверьте правильность ввода.")
@@ -123,4 +127,4 @@ if __name__ == '__main__':
     try:
         asyncio.run(main())
     except KeyboardInterrupt:
-        print("EXIT") 
+        print("EXIT")
