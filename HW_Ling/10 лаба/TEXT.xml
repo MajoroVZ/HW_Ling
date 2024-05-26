@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI>
+	<teiHeader>
+		<fileDesc>
+			<titleStmt>
+				<title>Данная Вас. Бор. КопнинаТроицкого м-ря иг. Никону на дер.Казановскую, в Радонеже, близ м-ря</title>
+					<p>Список сер. XVIв. Кн. 518 л.543 об..</p>
+					<idno>7</idno>
+					<date from="1392" to="1427">1392-1427</date>
+			</titleStmt>
+			<respStmt>
+				<persName>Тафинцев Дмитрий</persName>
+				<resp>Повторил разметки из файла </resp>
+			</respStmt>
+		</fileDesc>
+	</teiHeader>
+	<text>
+		<disp>Святой Троици в дом.</disp> <intit>Се яз, <pers>Василей Борисовичь,</pers></intit> дал есми <pers>игумену Никону</pers> з братьею деревню <place>Костянтинову</place> <pers>Казанова.</pers>
+		<corr>А подписал яз, <pers>Василей,</pers> сию грамоту. 
+		А у даные печать.</corr>
+	</text>
+</TEI>
+
